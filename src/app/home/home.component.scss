@@ -1,0 +1,41 @@
+.langbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.header {
+    .title {
+        font-weight: bold;
+    }
+}
+
+.filters {
+    .filters-body {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .user-list {
+            margin: 0 0;
+
+            label {
+                margin: 0 0;
+            }
+
+            #user-select {
+                min-width: 150px;
+            }
+        }
+    }
+}
+
+.username {
+    width: 180px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.treeviews {
+    min-height: 350px;
+}

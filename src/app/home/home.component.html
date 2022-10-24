@@ -1,0 +1,66 @@
+<div class="langbar py-2">
+	<button nz-button [nzType]="lang=='en' ? 'primary' : 'default'" class="mr-1" (click)="setLang('en')">EN</button>
+	<button nz-button [nzType]="lang=='fr' ? 'primary' : 'default'" (click)="setLang('fr')">FR</button>
+</div>
+
+<nz-card class="header text-center">
+	<h1 class="title">RMT Admin Module</h1>
+</nz-card>
+
+<nz-card class="filters my-3">
+	<div class="filters-body">
+		<div class="user-list form-group">
+			<label htmlFor="user-select">User Id:</label>
+			<nz-select *ngIf="curUser; else templateName" id="user-select" class="ml-2" [(ngModel)]="curUser"
+				(ngModelChange)="changeUser($event)">
+				<nz-option *ngFor="let user of userList" [nzValue]="user" [nzLabel]="user.name"></nz-option>
+			</nz-select>
+			<ng-template #templateName>
+				<nz-select class="ml-2" ngModel="no">
+					<nz-option nzValue="no" nzLabel="No Users"></nz-option>
+				</nz-select>
+			</ng-template>
+		</div>
+		<nz-radio-group class="font-weight-bold" [(ngModel)]="type" (ngModelChange)="changeType($event)">
+			<label nz-radio nzValue="rmt">RMT</label>
+			<label nz-radio nzValue="cor">RMT CorCan</label>
+			<label nz-radio nzValue="gwc">RMT GWC</label>
+		</nz-radio-group>
+	</div>
+</nz-card>
+<div class="row">
+	<div class="d-flex flex-column col-md-2">
+		<button nz-button nzType="primary" nz-popover nzPopoverTitle="Input Username"
+			[(nzPopoverVisible)]="popoverVisible" (nzPopoverVisibleChange)="popoverChange($event)"
+			nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate" class="mb-2">Add User</button>
+		<ng-template #contentTemplate class="text-right">
+			<input nz-input [(ngModel)]="username" class="username" />
+			<div class="text-right">
+				<button nz-button nzType="primary" class="mr-2" (click)="addUser()">Add</button>
+				<button nz-button nzType="default" (click)="popoverVisible=false">Close</button>
+			</div>
+		</ng-template>
+		<button nz-button nzType="primary" nzDanger (click)="showDeleteConfirm()">Delete User</button>
+	</div>
+	<div class="treeviews col-md-10">
+		<div class="row">
+			<app-rmt-treeview class="col-md-5" title="Available Locations" type="available" [data]="enAvailables"
+				[expands]="availableExpands" [checked]="availableChecked" (treeActionEvent)="treeActions($event)"
+				(treeChangeEvent)="treeChangeEvent($event)"></app-rmt-treeview>
+			<div class="col-md-2 d-flex flex-column align-items-center pt-5">
+				<button nz-button nzType="primary" class="mt-5 mb-3" (click)="moveToRight()">
+					<i class="fas fa-angle-double-right"></i>
+				</button>
+				<button nz-button nzType="primary" (click)="moveToLeft()">
+					<i class="fas fa-angle-double-left"></i>
+				</button>
+			</div>
+			<app-rmt-treeview class="col-md-5" title="Current Locations" type="location" [data]="enLocations"
+				[expands]="locationExpands" [checked]="locationChecked" (treeActionEvent)="treeActions($event)"
+				(treeChangeEvent)="treeChangeEvent($event)">
+			</app-rmt-treeview>
+		</div>
+		<button nz-button nzType="primary" class="d-block mx-auto mt-2" *ngIf="curUser"
+			(click)="saveUserAccess()">Save</button>
+	</div>
+</div>
